@@ -1,5 +1,6 @@
 using Application.Commands.Users;
 using Application.DTOs;
+using Application.Helpers;
 using Application.Queries.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,18 @@ namespace UserRegistrationProject.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
+            var existingUser = await _mediator.Send(new GetUserByEmailQuery(dto.Email));
+            if (existingUser != null)
+                return BadRequest(new { message = "Já existe um usuário cadastrado com este e-mail." });
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!PasswordValidator.IsStrongPassword(dto.Password))
+                return BadRequest(new { message = "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial." });
+
             var result = await _mediator.Send(new CreateUserCommand(dto));
+
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
@@ -42,8 +54,22 @@ namespace UserRegistrationProject.Api.Controllers
         [AuthorizeUser]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
+
             if (id != dto.Id)
                 return BadRequest(new { message = "ID do usuário incompatível" });
+
+            if (dto.Email != null)
+            {
+                var existingUser = await _mediator.Send(new GetUserByEmailQuery(dto.Email));
+                if (existingUser != null && existingUser.Id != id)
+                    return BadRequest(new { message = "Já existe outro usuário cadastrado com este e-mail." });
+            }
+
+            if (dto.Password != null)
+            {
+                if (!PasswordValidator.IsStrongPassword(dto.Password))
+                    return BadRequest(new { message = "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial." });
+            }
 
             var result = await _mediator.Send(new UpdateUserCommand(dto));
 
