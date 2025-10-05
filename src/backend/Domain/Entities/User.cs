@@ -1,10 +1,12 @@
-﻿namespace Domain.Entities
+﻿using Domain.Enums;
+
+namespace Domain.Entities
 {
     public class User : EntityBase
     {
         public string Username { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty; 
         public string Email { get; set; } = string.Empty;
-        public object Role { get; set; }
+        public EUserRole Role { get; set; }
     }
 }
