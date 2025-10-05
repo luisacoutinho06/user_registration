@@ -1,0 +1,48 @@
+# Build Folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# DotNet
+*.dbmdl
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+*.ncb
+*.sdf
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Local Secrets
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+.env
+
+# Others
+*.DS_Store
+*.class
+*.dll
+*.exe
+*.log
+*.vsix
+*.zip
