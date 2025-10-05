@@ -35,17 +35,19 @@ namespace UserRegistrationProject.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _mediator.Send(new GetUserByIdQuery(id));
-            return result != null ? Ok(result) : NotFound();
+            return result != null ? Ok(result) : NotFound(new { message = "Usuário não encontrado" });
         }
 
         [HttpPut("{id}")]
         [AuthorizeUser]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
-            if (id != dto.Id) return BadRequest();
+            if (id != dto.Id)
+                return BadRequest(new { message = "ID do usuário incompatível" });
 
             var result = await _mediator.Send(new UpdateUserCommand(dto));
-            return result != null ? Ok(result) : NotFound();
+
+            return result != null ? Ok(result) : NotFound(new { message = "Usuário não encontrado" });
         }
 
         [HttpDelete("{id}")]
@@ -55,11 +57,11 @@ namespace UserRegistrationProject.Api.Controllers
             try
             {
                 await _mediator.Send(new DeleteUserCommand(id));
-                return Ok();
+                return Ok(new { message = "Usuário removido com sucesso" });
             }
             catch (KeyNotFoundException)
             {
-                return NotFound();
+                return NotFound(new { message = "Usuário não encontrado" });
             }
         }
     }
