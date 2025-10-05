@@ -1,34 +1,21 @@
 using Application.Interfaces;
+using Application.Services;
+using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Context;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Application.Handlers.Users;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddMediatR(cfg =>
-{
-    // Passa o assembly onde os handlers estão
-    cfg.RegisterServicesFromAssembly(typeof(CreateUserHandler).Assembly);
-}); 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Injeção de dependência
-// Registra todos os repositórios que implementam IRepositoryBase<T>
-builder.Services.Scan(scan => scan
-    .FromAssembliesOf(typeof(IRepositoryBase<>))
-    .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)))
-    .AsImplementedInterfaces()
-    .WithScopedLifetime());
-
-// Mesma lógica para serviços
-builder.Services.Scan(scan => scan
-    .FromAssembliesOf(typeof(IServiceBase<>))
-    .AddClasses(classes => classes.AssignableTo(typeof(IServiceBase<>)))
-    .AsImplementedInterfaces()
-    .WithScopedLifetime());
+builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddControllers();
