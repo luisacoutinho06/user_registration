@@ -6,10 +6,15 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    public class GetUserByIdHandler(IUserService userService, IMapper mapper) : IRequestHandler<GetUserByIdQuery, UserDto?>
+    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, UserDto?>
     {
-        private readonly IUserService _userService = userService;
-        private readonly IMapper _mapper = mapper;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+        public GetUserByIdHandler(IUserService userService, IMapper mapper)
+        {
+            _userService = userService;
+            _mapper = mapper;
+        }
 
         public async Task<UserDto?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {

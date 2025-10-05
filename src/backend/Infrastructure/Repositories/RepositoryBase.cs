@@ -5,9 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class RepositoryBase<T>(AppDbContext context) : IRepositoryBase<T> where T : EntityBase
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
-        protected readonly AppDbContext _context = context;
+        protected readonly AppDbContext _context;
+        public RepositoryBase(AppDbContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
 
         public virtual async Task<T> AddAsync(T entity)
         {

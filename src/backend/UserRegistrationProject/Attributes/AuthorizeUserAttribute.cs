@@ -4,9 +4,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace UserRegistrationProject.Api.Attributes
 {
-    public class AuthorizeUserAttribute(params int[] roles) : AuthorizeAttribute, IAuthorizationFilter
+    public class AuthorizeUserAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        private readonly int[] _roles = roles;
+        private readonly int[] _roles;
+        public AuthorizeUserAttribute(params int[] roles)
+        {
+            _roles = roles ?? Array.Empty<int>();
+        }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {

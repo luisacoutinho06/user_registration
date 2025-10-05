@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository(AppDbContext context) : RepositoryBase<User>(context), IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private new readonly AppDbContext _context = context;
+        private new readonly AppDbContext _context;
+        public UserRepository(AppDbContext context) : base(context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);

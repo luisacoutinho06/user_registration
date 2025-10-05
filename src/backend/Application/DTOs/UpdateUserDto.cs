@@ -9,7 +9,7 @@ namespace Application.DTOs
         [StringLength(100, MinimumLength = 8)]
         public string Username { get; set; } = string.Empty;
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Por favor, informe um e-mail válido.")]
         public string Email { get; set; } = string.Empty;
 
         [DataType(DataType.Password)]

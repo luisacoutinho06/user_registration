@@ -5,14 +5,19 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    public class UpdateUserHandler(IUserService userService) : IRequestHandler<UpdateUserCommand, UserDto>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UserDto>
     {
-        private readonly IUserService _userService = userService;
+        private readonly IUserService _userService;
+        public UpdateUserHandler(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         public async Task<UserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var userModified = await _userService.GetByIdAsync(request.UpdateUserDto.Id);
-            if (userModified == null) return null;
+            if (userModified == null)
+                throw new KeyNotFoundException("User not found.");
 
             userModified.Username = request.UpdateUserDto.Username;
             userModified.Email = request.UpdateUserDto.Email;

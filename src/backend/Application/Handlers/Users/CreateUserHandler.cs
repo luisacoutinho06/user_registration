@@ -6,9 +6,13 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    public class CreateUserHandler(IUserService userService) : IRequestHandler<CreateUserCommand, UserDto>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
     {
-        private readonly IUserService _userService = userService;
+        private readonly IUserService _userService;
+        public CreateUserHandler(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {

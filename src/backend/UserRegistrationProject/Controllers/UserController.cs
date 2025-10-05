@@ -11,9 +11,14 @@ namespace UserRegistrationProject.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController(IMediator mediator) : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IMediator _mediator = mediator;
+        private readonly IMediator _mediator;
+
+        public UserController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -32,6 +37,17 @@ namespace UserRegistrationProject.Api.Controllers
             var result = await _mediator.Send(new CreateUserCommand(dto));
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var token = await _mediator.Send(new LoginUserCommand(dto));
+            if (token == null)
+                return Unauthorized(new { message = "E-mail ou senha inválidos." });
+
+            return Ok(new { token });
         }
 
         [HttpGet]
@@ -54,7 +70,6 @@ namespace UserRegistrationProject.Api.Controllers
         [AuthorizeUser]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
-
             if (id != dto.Id)
                 return BadRequest(new { message = "ID do usuário incompatível" });
 

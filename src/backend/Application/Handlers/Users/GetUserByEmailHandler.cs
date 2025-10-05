@@ -5,9 +5,13 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    public class GetUserByEmailHandler(IUserService userService) : IRequestHandler<GetUserByEmailQuery, User?>
+    public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, User?>
     {
-        private readonly IUserService _userService = userService;
+        private readonly IUserService _userService;
+        public GetUserByEmailHandler(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         public async Task<User?> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
         {
