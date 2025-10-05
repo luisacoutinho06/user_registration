@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Services;
+using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Injeção de dependência
 builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
 builder.Services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 builder.Services.AddControllers();
