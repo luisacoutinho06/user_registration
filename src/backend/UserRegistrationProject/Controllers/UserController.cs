@@ -5,9 +5,9 @@ using Application.Queries.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserRegistrationProject.Api.Attributes;
+using UserRegistrationProject.WebApi.Attributes;
 
-namespace UserRegistrationProject.Api.Controllers
+namespace UserRegistrationProject.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
