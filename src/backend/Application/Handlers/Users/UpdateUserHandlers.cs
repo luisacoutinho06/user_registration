@@ -8,6 +8,7 @@ namespace Application.Handlers.Users
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UserDto>
     {
         private readonly IUserService _userService;
+
         public UpdateUserHandler(IUserService userService)
         {
             _userService = userService;
@@ -15,16 +16,16 @@ namespace Application.Handlers.Users
 
         public async Task<UserDto> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userModified = await _userService.GetByIdAsync(request.UpdateUserDto.Id);
-            if (userModified == null)
-                throw new KeyNotFoundException("User not found.");
+            var userModified = await _userService.GetByIdAsync(request.Id) ?? throw new KeyNotFoundException("User not found.");
 
-            userModified.Username = request.UpdateUserDto.Username;
-            userModified.Email = request.UpdateUserDto.Email;
+            if (!string.IsNullOrEmpty(request.UpdateUserDto.Username))
+                userModified.Username = request.UpdateUserDto.Username;
+
+            if (!string.IsNullOrEmpty(request.UpdateUserDto.Email))
+                userModified.Email = request.UpdateUserDto.Email;
+
             if (!string.IsNullOrEmpty(request.UpdateUserDto.Password))
-            {
                 userModified.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.UpdateUserDto.Password);
-            }
 
             await _userService.UpdateAsync(userModified);
 
