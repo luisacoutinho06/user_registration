@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace UserRegistrationProject.Api.Attributes
+namespace UserRegistrationProject.WebApi.Attributes
 {
     public class AuthorizeUserAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
