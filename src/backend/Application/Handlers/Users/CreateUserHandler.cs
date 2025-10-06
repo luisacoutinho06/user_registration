@@ -20,7 +20,8 @@ namespace Application.Handlers.Users
             {
                 Username = request.UserDto.Username,
                 Email = request.UserDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.UserDto.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.UserDto.Password),
+                Role = Domain.Enums.EUserRole.User
             };
 
             await _userService.AddAsync(user);

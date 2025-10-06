@@ -70,8 +70,8 @@ namespace UserRegistrationProject.Api.Controllers
         [AuthorizeUser]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
-            if (id != dto.Id)
-                return BadRequest(new { message = "ID do usuário incompatível" });
+            if (id == 0 || id == null)
+                return BadRequest(new { message = "Usuário não encontrado." });
 
             if (dto.Email != null)
             {
@@ -86,7 +86,7 @@ namespace UserRegistrationProject.Api.Controllers
                     return BadRequest(new { message = "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial." });
             }
 
-            var result = await _mediator.Send(new UpdateUserCommand(dto));
+            var result = await _mediator.Send(new UpdateUserCommand(dto, id));
 
             return result != null ? Ok(result) : NotFound(new { message = "Usuário não encontrado" });
         }
