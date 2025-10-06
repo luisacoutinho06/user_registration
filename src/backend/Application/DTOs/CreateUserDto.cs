@@ -15,5 +15,10 @@ namespace Application.DTOs
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string PasswordConfirmed { get; set; } = string.Empty;
+
     }
 }

@@ -34,6 +34,9 @@ namespace UserRegistrationProject.WebApi.Controllers
             if (!PasswordValidator.IsStrongPassword(dto.Password))
                 return BadRequest(new { message = "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial." });
 
+            if (!PasswordValidator.ArePasswordsEqual(dto.Password, dto.PasswordConfirmed))
+                return BadRequest(new { message = "Ambas as senhas devem ser idênticas." });
+
             var result = await _mediator.Send(new CreateUserCommand(dto));
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
