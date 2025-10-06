@@ -1,0 +1,19 @@
+<div class="container mt-5">
+  <h2>{{ userId ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nome</label>
+      <input type="text" id="name" class="form-control" formControlName="name">
+    </div>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" id="username" class="form-control" formControlName="username">
+    </div>
+    <div class="mb-3" *ngIf="!userId">
+      <label for="password" class="form-label">Senha</label>
+      <input type="password" id="password" class="form-control" formControlName="password">
+    </div>
+    <button class="btn btn-primary" type="submit">Salvar</button>
+    <a routerLink="/users" class="btn btn-secondary ms-2">Cancelar</a>
+  </form>
+</div>
