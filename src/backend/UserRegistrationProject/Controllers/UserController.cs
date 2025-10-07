@@ -74,7 +74,7 @@ namespace UserRegistrationProject.WebApi.Controllers
         [AuthorizeUser]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto dto)
         {
-            if (id == 0 || id == null)
+            if (id == 0)
                 return BadRequest(new { message = "Usuário não encontrado." });
 
             if (dto.Email != null)
@@ -84,10 +84,13 @@ namespace UserRegistrationProject.WebApi.Controllers
                     return BadRequest(new { message = "Já existe outro usuário cadastrado com este e-mail." });
             }
 
-            if (dto.Password != null)
+            if (dto.Password != null && dto.PasswordConfirmed != null)
             {
                 if (!PasswordValidator.IsStrongPassword(dto.Password))
                     return BadRequest(new { message = "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial." });
+
+                if (!PasswordValidator.ArePasswordsEqual(dto.Password, dto.PasswordConfirmed))
+                    return BadRequest(new { message = "Ambas as senhas devem ser idênticas." });
             }
 
             var result = await _mediator.Send(new UpdateUserCommand(dto, id));

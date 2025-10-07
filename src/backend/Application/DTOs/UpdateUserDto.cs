@@ -6,13 +6,18 @@ namespace Application.DTOs
     {
         public int? Id { get; set; }
 
-        [StringLength(100, MinimumLength = 8, ErrorMessage = "O nome de usuário deve ter entre 8 e 100 caracteres.")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "O nome do usuário não pode exceder 20 caracteres.")]
         public string? Username { get; set; }
 
-        [EmailAddress(ErrorMessage = "Por favor, informe um e-mail válido.")]
+        [StringLength(60, ErrorMessage = "O e-mail não pode exceder 60 caracteres.")]
         public string? Email { get; set; }
 
         [DataType(DataType.Password)]
+        [StringLength(16, ErrorMessage = "A senha não pode exceder 16 caracteres.")]
         public string? Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [StringLength(16, ErrorMessage = "A senha não pode exceder 16 caracteres.")]
+        public string? PasswordConfirmed { get; set; }
     }
 }
