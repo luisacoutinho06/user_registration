@@ -1,10 +1,11 @@
 ﻿using Application.Commands.Users;
+using Application.DTOs;
 using Application.Interfaces;
 using MediatR;
 
 namespace Application.Handlers.Users
 {
-    public class LoginUserHandler : IRequestHandler<LoginUserCommand, string?>
+    public class LoginUserHandler : IRequestHandler<LoginUserCommand, LoginResponseDto?>
     {
         private readonly IUserService _userService;
 
@@ -13,7 +14,7 @@ namespace Application.Handlers.Users
             _userService = userService;
         }
 
-        public async Task<string?> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<LoginResponseDto?> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var dto = request.LoginDto;
 
@@ -23,7 +24,14 @@ namespace Application.Handlers.Users
             if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
                 return null;
 
-            return _userService.GenerateJwtToken(user);
+            var token = _userService.GenerateJwtToken(user);
+
+            return new LoginResponseDto
+            {
+                Username = user.Username,
+                Email = user.Email,
+                Token = token
+            };
         }
     }
 }

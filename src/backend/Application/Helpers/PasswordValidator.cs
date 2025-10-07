@@ -13,5 +13,11 @@
 
             return password.Length >= 8 && hasUpper && hasLower && hasDigit && hasSpecial;
         }
+        public static bool ArePasswordsEqual(string password, string confirmPassword)
+        {
+            if (password == null || confirmPassword == null) return false;
+
+            return password == confirmPassword;
+        }
     }
 }
