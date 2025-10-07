@@ -46,11 +46,12 @@ namespace UserRegistrationProject.WebApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var token = await _mediator.Send(new LoginUserCommand(dto));
-            if (token == null)
+            var loginResponse = await _mediator.Send(new LoginUserCommand(dto));
+
+            if (loginResponse == null)
                 return Unauthorized(new { message = "E-mail ou senha inválidos." });
 
-            return Ok(new { token });
+            return Ok(loginResponse);
         }
 
         [HttpGet]

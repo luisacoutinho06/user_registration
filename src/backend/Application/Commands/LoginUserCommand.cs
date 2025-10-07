@@ -3,5 +3,5 @@ using MediatR;
 
 namespace Application.Commands.Users
 {
-    public record LoginUserCommand(LoginDto LoginDto) : IRequest<string?>;
+    public record LoginUserCommand(LoginDto LoginDto) : IRequest<LoginResponseDto?>;
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.DTOs
 {
@@ -11,5 +12,7 @@ namespace Application.DTOs
 
         [EmailAddress(ErrorMessage = "Por favor, informe um e-mail válido.")]
         public string Email { get; set; } = string.Empty;
+        public DateTime RegistrationDate { get; set; }
+        public EUserRole Role { get; set; }
     }
 }
