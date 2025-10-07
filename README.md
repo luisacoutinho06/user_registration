@@ -34,6 +34,7 @@ Pacotes usados:
 Camadas simples: Domain (Entities), Infrastructure (DbContext, Repos), Application (DTOs, Handlers, Services), Api (Controllers)
 
 ### Estrutura do projeto backend:
+Essa arquitetura segue os princípios da Clean Architecture, aplicada em conjunto com os padrões DDD (Domain-Driven Design) e CQRS (Command Query Responsibility Segregation).
 ```bash
 UserRegistrationProject (API)
 │
