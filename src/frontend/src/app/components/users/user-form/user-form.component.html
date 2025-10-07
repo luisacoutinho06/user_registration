@@ -1,19 +1,61 @@
 <div class="container mt-5">
-  <h2>{{ userId ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label for="name" class="form-label">Nome</label>
-      <input type="text" id="name" class="form-control" formControlName="name">
-    </div>
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" id="username" class="form-control" formControlName="username">
-    </div>
-    <div class="mb-3" *ngIf="!userId">
-      <label for="password" class="form-label">Senha</label>
-      <input type="password" id="password" class="form-control" formControlName="password">
-    </div>
-    <button class="btn btn-primary" type="submit">Salvar</button>
-    <a routerLink="/users" class="btn btn-secondary ms-2">Cancelar</a>
-  </form>
+  <div class="card shadow-sm p-4 mx-auto" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">{{ isEditMode ? 'Editar Usuário' : 'Novo Usuário' }}</h2>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+          <input type="email" id="email" class="form-control" formControlName="email" maxlength="50">
+        </div>
+        <div *ngIf="hasError('email','required')" class="text-danger small mt-1">Email é obrigatório</div>
+        <div *ngIf="hasError('email','email')" class="text-danger small mt-1">Email inválido</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Nome de Usuário</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
+          <input type="text" id="username" class="form-control" formControlName="username" maxlength="30">
+        </div>
+        <div *ngIf="hasError('username','required')" class="text-danger small mt-1">Username é obrigatório</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Senha</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" maxlength="20">
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+          </button>
+        </div>
+        <div *ngIf="hasError('password','strongPassword')" class="text-danger small mt-1">
+          Senha deve ter mínimo 8 caracteres, 1 maiúscula, 1 minúscula, 1 número e 1 especial
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="confirmPassword" class="form-label">Confirme a Senha</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" formControlName="confirmPassword" maxlength="20">
+          <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPassword()">
+            <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+          </button>
+        </div>
+        <div *ngIf="hasFormError('passwordMismatch')" class="text-danger small mt-1">
+          As senhas não coincidem
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button type="submit" class="btn btn-primary w-50 me-2">
+          {{ isEditMode ? 'Atualizar' : 'Cadastrar' }}
+        </button>
+        <a routerLink="/users-list" class="btn btn-secondary w-50 ms-2">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </div>

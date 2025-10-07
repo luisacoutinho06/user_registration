@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     localStorage.removeItem('usuario');
     localStorage.removeItem('token');
     this.nomeUsuario = null;
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   get logado(): boolean {

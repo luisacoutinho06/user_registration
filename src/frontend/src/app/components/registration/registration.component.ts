@@ -20,7 +20,7 @@ export class RegistrationComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, strongPasswordValidator()]],
-      passwordConfirmed: ['', Validators.required]
+      passwordConfirmed: ['', Validators.required, strongPasswordValidator()]
     });
 
   }

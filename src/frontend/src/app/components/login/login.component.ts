@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.authService.login(username || '', password || '').subscribe({
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email || '', password || '').subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token);
           this.router.navigate(['/users-list']);
