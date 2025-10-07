@@ -1,25 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.services';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  showPassword: boolean = false;
+
+  ngOnInit(): void {
+    localStorage.clear();
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
@@ -28,20 +42,10 @@ export class LoginComponent {
       this.authService.login(username || '', password || '').subscribe({
         next: (res: any) => {
           localStorage.setItem('token', res.token);
-
-          Swal.fire({
-            icon: 'success',
-            title: 'Login realizado!',
-            text: 'Você será redirecionado...',
-            timer: 1500,
-            showConfirmButton: false
-          }).then(() => {
-            this.router.navigate(['/users']);
-          });
+          this.router.navigate(['/users-list']);
         },
         error: (err) => {
           const message = err.error?.message || 'Login falhou';
-
           Swal.fire({
             icon: 'error',
             title: 'Oops...',

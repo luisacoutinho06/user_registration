@@ -11,23 +11,24 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string) {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, { email, password }).pipe(
+    return this.http.post<{ username: string; email: string; token: string }>(
+      `${this.baseUrl}/login`,
+      { email, password }
+    ).pipe(
       tap(response => {
         if (response?.token) {
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('usuario', JSON.stringify({
+            nome: response.username,
+            email: response.email,
+            token: response.token
+          }));
         }
       })
     );
   }
 
-  registration(username: string, email: string, password: string) {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/login`, { email, password }).pipe(
-      tap(response => {
-        if (response?.token) {
-          localStorage.setItem('token', response.token);
-        }
-      })
-    );
+  registration(username: string, email: string, password: string, passwordConfirmed: string) {
+    return this.http.post<{ token: string }>(`${this.baseUrl}`, { username, email, password, passwordConfirmed });
   }
 
   logout() {

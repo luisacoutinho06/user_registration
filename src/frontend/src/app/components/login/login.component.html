@@ -1,37 +1,39 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
-    <h2 class="text-center mb-4">Login</h2>
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 1rem;">
+    <h2 class="text-center mb-4 text-primary">Login</h2>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Usuário -->
       <div class="mb-3">
-        <label for="username" class="form-label">Usuário</label>
-        <input
-          type="text"
-          id="username"
-          class="form-control"
-          formControlName="username"
-          placeholder="Digite seu usuário"
-        />
-        <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" class="text-danger small">
+        <label for="username" class="form-label">E-mail</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+          <input type="text" id="username" class="form-control" formControlName="username"
+            placeholder="Digite seu usuário" />
+        </div>
+        <div *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid" 
+             class="text-danger small mt-1">
           Usuário é obrigatório
         </div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Senha</label>
-        <input
-          type="password"
-          id="password"
-          class="form-control"
-          formControlName="password"
-          placeholder="Digite sua senha"
-        />
-        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="text-danger small">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password"
+            placeholder="Digite sua senha" />
+          <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
+            <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+          </button>
+        </div>
+        <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" 
+             class="text-danger small mt-1">
           Senha é obrigatória
         </div>
       </div>
 
-      <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid">
+      <button class="btn btn-primary w-100 mb-2" type="submit" [disabled]="loginForm.invalid">
         Entrar
       </button>
     </form>
@@ -39,7 +41,13 @@
     <div class="text-center mt-3">
       <small class="text-muted">
         Esqueceu a senha? 
-        <a href="#" class="text-decoration-none">Clique aqui</a>
+        <a href="#" class="text-decoration-none fw-bold">Clique aqui</a>
+      </small>
+    </div>
+    <div class="text-center mt-2">
+      <small class="text-muted">
+        Não tem cadastro? 
+        <a [routerLink]="['/registration']" class="text-decoration-none fw-bold">Cadastre agora</a>
       </small>
     </div>
   </div>

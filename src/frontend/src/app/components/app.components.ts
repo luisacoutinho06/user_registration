@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +12,34 @@ import { RouterModule } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'Cadastro de Usuários';
   nomeUsuario: string | null = null;
-  temAcesso: boolean = false;
-  logado: boolean = false;
+  mostrarMenu = true; 
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    this.atualizarUsuario();
 
-    if (usuario && usuario.nome) {
-      this.logado = true;
-      this.nomeUsuario = usuario.nome;
-      this.temAcesso = usuario.role === 1;
-    } else {
-      this.logado = false;
-      this.nomeUsuario = null;
-      this.temAcesso = false;
-    }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.atualizarUsuario();
+      this.mostrarMenu = true;
+    });
+  }
+
+  atualizarUsuario(): void {
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+    this.nomeUsuario = usuario?.nome || null;
   }
 
   logout(): void {
     localStorage.removeItem('usuario');
-    this.logado = false;
-    window.location.href = '/login';
+    localStorage.removeItem('token');
+    this.nomeUsuario = null;
+    this.router.navigate(['/login']);
+  }
+
+  get logado(): boolean {
+    return !!this.nomeUsuario;
   }
 }

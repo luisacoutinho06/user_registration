@@ -11,6 +11,11 @@ import { UserService } from '../../../services/user.service';
 })
 export class UsersListComponent {
   users: any[] = [];
+
+  roleMap: { [key: number]: string } = {
+    1: 'Usuário Comum'
+  };
+
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit() {
