@@ -9,7 +9,6 @@ namespace Application.DTOs
         [StringLength(20, MinimumLength = 8, ErrorMessage = "O nome do usuário não pode exceder 20 caracteres.")]
         public string? Username { get; set; }
 
-        [EmailAddress(ErrorMessage = "Por favor, informe um e-mail válido.")]
         [StringLength(60, ErrorMessage = "O e-mail não pode exceder 60 caracteres.")]
         public string? Email { get; set; }
 
