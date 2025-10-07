@@ -15,5 +15,9 @@ namespace Application.DTOs
         [DataType(DataType.Password)]
         [StringLength(16, ErrorMessage = "A senha não pode exceder 16 caracteres.")]
         public string? Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [StringLength(16, ErrorMessage = "A senha não pode exceder 16 caracteres.")]
+        public string? PasswordConfirmed { get; set; }
     }
 }
