@@ -36,7 +36,7 @@ Camadas simples: Domain (Entities), Infrastructure (DbContext, Repos), Applicati
 ### Estrutura do projeto backend:
 Essa arquitetura segue os princípios da Clean Architecture, aplicada em conjunto com os padrões DDD (Domain-Driven Design) e CQRS (Command Query Responsibility Segregation).
 ```bash
-UserRegistrationProject (API)
+backend
 │
 ├── Controllers/               # Endpoints REST, recebem requisições HTTP
 │   └── UserController.cs      # Exemplo de controller chamando CQRS
@@ -152,6 +152,84 @@ Body (JSON):
 ----------------------------------------------------------------------------------------
 
 ## Frontend
+Frontend desenvolvido em **Angular** para integração com o backend **.NET 6**, utilizando arquitetura modular, boas práticas de componentização e comunicação via API REST.
 
+Conceitos utilizados:
+- Componentização e reuso de código
+- Reactive Forms e validação dinâmica
+- Comunicação com API via HttpClient
+- Injeção de dependência (Dependency Injection)
+- Proteção de rotas (Route Guards)
+- Interceptação de requisições (HTTP Interceptor)
+- Organização modular e escalável
 
+Certifique-se de ter instalado:
+- **Node.js v18+**
+- **Angular CLI** (instalação global)
+
+```bash
+npm install -g @angular/cli
+```
+
+Como executar o projeto:
+- Acesse o diretório do projeto:
+```bash
+cd frontend
+```
+- Instale as dependências:
+```bash
+npm install
+```
+- Execute o servidor local:
+```bash
+ng serve
+```
+- Acesse a aplicação no navegador:
+```bash
+http://localhost:4200/
+```
+
+### Estrutura do projeto frontend:
+```bash
+frontend/
+│
+├── src/
+│   ├── app/
+│   │   ├── components/                # Componentes visuais (UI)
+│   │   │   ├── error/                 # Tela de erro (404, acesso negado, etc.)
+│   │   │   ├── login/                 # Tela de login e autenticação
+│   │   │   ├── registration/          # Tela de cadastro de usuários
+│   │   │   └── users/                 # Tela de listagem e gerenciamento de usuários
+│   │   │
+│   │   ├── guards/                    # Guards para controle de rotas e autenticação
+│   │   ├── interceptor/               # Interceptadores HTTP (ex: JWT Token)
+│   │   ├── models/                    # Modelos de dados da aplicação
+│   │   ├── services/                  # Serviços que consomem a API backend (.NET)
+│   │   ├── validators/                # Validações customizadas de formulários
+│   │   ├── app.routes.ts              # Definição das rotas principais
+│   │   ├── app.component.*            # Componente raiz (layout base)
+│   │   └── app.module.ts              # Módulo principal do projeto
+│   │
+│   ├── assets/                        # Recursos estáticos (imagens, ícones, etc.)
+│   ├── environment/                   # Configurações de ambiente (dev, prod)
+│   ├── index.html                     # HTML principal da aplicação
+│   └── main.ts                        # Ponto de entrada Angular
+│
+├── angular.json                       # Configuração do Angular CLI
+├── package.json                       # Dependências e scripts
+├── tsconfig.app.json                  # Configuração TypeScript da aplicação
+└── README.md                          # Documentação geral
+```
+
+Pacotes usados:
+```bash
+@angular/core -	Núcleo do framework Angular
+@angular/router -	Controle de rotas e navegação
+@angular/forms - Formulários reativos e validações
+rxjs - Programação reativa e observáveis
+bootstrap / bootstrap-icons	- Estilização e ícones
+jwt-decode	- Decodificação de tokens JWT
+ngx-toastr	- Exibição de notificações e alertas
+sweetalert	- Exibição de notificações e alertas
+```
 
