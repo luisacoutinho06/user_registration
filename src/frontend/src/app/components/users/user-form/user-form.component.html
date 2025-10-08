@@ -11,6 +11,9 @@
         </div>
         <div *ngIf="hasError('email','required')" class="text-danger small mt-1">Email é obrigatório</div>
         <div *ngIf="hasError('email','email')" class="text-danger small mt-1">Email inválido</div>
+        <div *ngIf="hasError('username', 'maxlength')" class="text-danger small mt-1">
+          Email deve ter no máximo 30 caracteres
+        </div>
       </div>
 
       <div class="mb-3">
@@ -19,17 +22,29 @@
           <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
           <input type="text" id="username" class="form-control" formControlName="username" maxlength="30">
         </div>
-        <div *ngIf="hasError('username','required')" class="text-danger small mt-1">Username é obrigatório</div>
+
+        <div *ngIf="hasError('username', 'required')" class="text-danger small mt-1">
+          Nome de usuário é obrigatório
+        </div>
+        <div *ngIf="hasError('username', 'minlength')" class="text-danger small mt-1">
+          Nome de usuário deve ter no mínimo 8 caracteres
+        </div>
+        <div *ngIf="hasError('username', 'maxlength')" class="text-danger small mt-1">
+          Nome de usuário deve ter no máximo 30 caracteres
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="password" class="form-label">Senha</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-          <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" formControlName="password" maxlength="20">
+          <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control"
+            formControlName="password" maxlength="20">
           <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()">
             <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
           </button>
+        </div>
+        <div *ngIf="hasError('password','required')" class="text-danger small mt-1">É obrigatório preencher a senha.
         </div>
         <div *ngIf="hasError('password','strongPassword')" class="text-danger small mt-1">
           Senha deve ter mínimo 8 caracteres, 1 maiúscula, 1 minúscula, 1 número e 1 especial
@@ -40,11 +55,14 @@
         <label for="confirmPassword" class="form-label">Confirme a Senha</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" formControlName="confirmPassword" maxlength="20">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control"
+            formControlName="confirmPassword" maxlength="20">
           <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPassword()">
             <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
           </button>
         </div>
+        <div *ngIf="hasError('confirmPassword','required')" class="text-danger small mt-1">É obrigatório preencher a
+          senha.</div>
         <div *ngIf="hasFormError('passwordMismatch')" class="text-danger small mt-1">
           As senhas não coincidem
         </div>
