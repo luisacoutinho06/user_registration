@@ -27,9 +27,10 @@ export class AuthService {
     );
   }
 
-  registration(username: string, email: string, password: string, passwordConfirmed: string) {
-    return this.http.post<{ token: string }>(`${this.baseUrl}`, { username, email, password, passwordConfirmed });
+  registration(user: any) {
+    return this.http.post<{ token: string }>(`${this.baseUrl}`, user);
   }
+
 
   logout() {
     localStorage.removeItem('token');
